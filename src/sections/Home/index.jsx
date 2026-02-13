@@ -24,11 +24,12 @@ export default function HomeOverview({ initialData }) {
     }
 
     const { data, error } = await supabase
-      .from("profiles")
+      .from("bookmark")
       .insert([
         {
-          name,
-          age,
+          title: name,
+          url: age,
+          user_id: user.id,
         },
       ])
       .select();
@@ -67,7 +68,7 @@ export default function HomeOverview({ initialData }) {
   };
 
   const handleDelete = async (id) => {
-    const { error } = await supabase.from("profiles").delete().eq("id", id);
+    const { error } = await supabase.from("bookmark").delete().eq("id", id);
 
     if (error) {
       console.error("Delete error:", error.message);
@@ -80,10 +81,9 @@ export default function HomeOverview({ initialData }) {
 
   const fetchProfiles = async () => {
     const { data, error } = await supabase
-      .from("profiles")
+      .from("bookmark")
       .select("*")
-      .eq("user_id", "6330ffba-fc46-451d-a338-d7f33131db60") // 👈 filter by logged-in user
-      .order("created_at", { ascending: false });
+      .order("inserted_at", { ascending: false });
 
     if (error) {
       console.error("Fetch error:", error.message);
@@ -94,37 +94,61 @@ export default function HomeOverview({ initialData }) {
   };
 
   useEffect(() => {
-    fetchProfiles();
-    const channel = supabase
-      .channel("profiles-channel")
-      .on(
-        "postgres_changes",
-        {
-          event: "*",
-          schema: "public",
-          table: "profiles",
-        },
-        (payload) => {
-          // Handle different events
-          if (payload.eventType === "INSERT") {
-            setProfiles((prev) => [payload.new, ...prev]);
-          }
-          if (payload.eventType === "UPDATE") {
-            setProfiles((prev) =>
-              prev.map((b) => (b.id === payload.new.id ? payload.new : b)),
-            );
-          }
-          if (payload.eventType === "DELETE") {
-            console.log(payload);
+    let channel;
 
-            setProfiles((prev) => prev.filter((b) => b.id !== payload.old.id));
-          }
-        },
-      )
-      .subscribe();
+    const setup = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (!user) return;
+
+      const { data, error } = await supabase
+        .from("bookmark")
+        .select("*")
+        .order("inserted_at", { ascending: false });
+
+      if (!error) {
+        setProfiles(data);
+      }
+
+      channel = supabase
+        .channel("bookmark-channel")
+        .on(
+          "postgres_changes",
+          {
+            event: "*",
+            schema: "public",
+            table: "bookmark",
+          },
+          (payload) => {
+            // Handle different events
+            if (payload.eventType === "INSERT") {
+              setProfiles((prev) => [payload.new, ...prev]);
+            }
+            if (payload.eventType === "UPDATE") {
+              setProfiles((prev) =>
+                prev.map((b) => (b.id === payload.new.id ? payload.new : b)),
+              );
+            }
+            if (payload.eventType === "DELETE") {
+              console.log(payload);
+
+              setProfiles((prev) =>
+                prev.filter((b) => b.id !== payload.old.id),
+              );
+            }
+          },
+        )
+        .subscribe((status) => {
+          console.log("Subscription status:", status);
+        });
+    };
+
+    setup();
 
     return () => {
-      supabase.removeChannel(channel);
+      if (channel) supabase.removeChannel(channel);
     };
   }, []);
 
@@ -159,10 +183,10 @@ export default function HomeOverview({ initialData }) {
             <div key={item.id} className="p-4 border rounded bg-slate-100">
               <h2>{i + 1}</h2>
               <p>
-                <strong>Name:</strong> {item.name}
+                <strong>Name:</strong> {item.title}
               </p>
               <p>
-                <strong>Age:</strong> {item.age}
+                <strong>Age:</strong> {item.url}
               </p>
               <button onClick={() => handleDelete(item.id)}>Delete</button>
             </div>
