@@ -8,8 +8,8 @@ Live Demo:
 
 ### Clone the repository
 
-git clone <your-repo-url>
-cd <project-folder>
+git clone https://github.com/AswinKaruppiah/abstrabit-assignment.git
+cd abstrabit-assignment
 
 ### Install dependencies
 
