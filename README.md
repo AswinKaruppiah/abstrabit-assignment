@@ -3,16 +3,15 @@
 Live Demo:  
 👉 https://abstrabit-assignment-mu.vercel.app/
 
-## ❓ Challenges Faced & Solutions
-
-### What problems did you run into and how did you solve them?
+## ❓ Challenges Faced & How I Solved Them
 
 One of the main challenges I faced was that **Supabase was completely new to me**. Initially, I wasn’t sure where to start or how to properly integrate it into the project.
 
-I especially struggled with understanding how to store and manage data in Supabase. To overcome this, I took a self-learning approach. I referred to the official documentation, watched YouTube tutorials, and used ChatGPT to clarify concepts and resolve specific issues.
+I struggled with understanding how to store and manage data in Supabase. To overcome this, I followed a self-learning approach by referring to the watching YouTube tutorials and using ChatGPT to clarify concepts and resolve issues.
 
-Through consistent learning and experimentation, I was able to understand how Supabase works and successfully implement data storage and management in the project.
+After successfully implementing data storage, I faced another challenge with retrieving data in real-time. I wasn’t sure how to approach real-time data fetching at first. Again through research tutorials and guidance from ChatGPT, I was able to enable real-time subscriptions and successfully implement real-time data retrieval.
 
+Through consistent learning and experimentation, I gained a solid understanding of Supabase and successfully completed both data storage and real-time data management in the project.
 
 ## 📂 Project Setup
 
