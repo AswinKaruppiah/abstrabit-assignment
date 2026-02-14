@@ -110,17 +110,13 @@ export default function HomeOverview({ initialData }) {
               );
             }
             if (payload.eventType === "DELETE") {
-              console.log(payload);
-
               setProfiles((prev) =>
                 prev.filter((b) => b.id !== payload.old.id),
               );
             }
           },
         )
-        .subscribe((status) => {
-          console.log("Subscription status:", status);
-        });
+        .subscribe((status) => {});
     };
 
     setup();
