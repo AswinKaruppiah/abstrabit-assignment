@@ -1,4 +1,4 @@
 import HomeOverview from "@/sections/Home";
-export default async function Home() {
+export default function Home() {
   return <HomeOverview />;
 }
