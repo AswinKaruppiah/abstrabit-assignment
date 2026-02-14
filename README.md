@@ -36,6 +36,6 @@ npm run dev
 
 You can view the demo video here:
 
-👉 https://github.com/user-attachments/assets/2c8c6273-1667-470e-a277-cf3413ddbc6e
+https://github.com/user-attachments/assets/0698b916-aac1-410b-9e46-29668e7d8365
 
 
