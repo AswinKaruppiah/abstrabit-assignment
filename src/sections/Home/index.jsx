@@ -178,7 +178,7 @@ export default function HomeOverview({ initialData }) {
 const BookMarkGrid = ({ bookmarks = [], handleDelete, loading }) => {
   if (loading) {
     return (
-      <div className="grid grid-cols-3 gap-2 ">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 ">
         {Array.from({ length: 6 }).map((_, i) => (
           <div
             key={i}
@@ -201,7 +201,7 @@ const BookMarkGrid = ({ bookmarks = [], handleDelete, loading }) => {
 
   if (bookmarks?.length > 0) {
     return (
-      <div className="grid grid-cols-3 gap-2 ">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 ">
         {bookmarks?.map((item, i) => (
           <div
             key={item.id}

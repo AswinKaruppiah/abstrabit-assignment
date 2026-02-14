@@ -1,5 +1,5 @@
-import GoogleLoginDemo from "./GoogleLogin";
+import GoogleLoginBox from "./GoogleLoginBox";
 
 export default async function GoogleLoginPage() {
-  return <GoogleLoginDemo />;
+  return <GoogleLoginBox />;
 }
